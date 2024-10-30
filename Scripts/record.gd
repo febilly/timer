@@ -20,6 +20,9 @@ func pop() -> Entry:
 func peek() -> Entry:
 	return entries.back()
 
+func is_empty() -> bool:
+	return entries.size() == 0
+
 # 高级操作
 func get_total_times() -> Dictionary:
 	var total_times := Dictionary()
@@ -34,6 +37,18 @@ func get_total_times() -> Dictionary:
 			total_times[last_type] = segment_length
 		last_type = entry.type
 	return total_times
+
+func get_brief() -> BriefRecord:
+	var brief := BriefRecord.new()
+	brief.total_times = get_total_times()
+	if is_empty():
+		brief.is_empty = true
+	else:
+		brief.is_empty = false
+		brief.last_activated_type = entries.back().type
+		return brief
+	
+	return brief
 
 # 保存和加载
 

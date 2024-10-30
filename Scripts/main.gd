@@ -14,6 +14,11 @@ func _ready() -> void:
     Metronome.tick.connect(tick)
 
 func load_record() -> void:
+    var brief_record: BriefRecord = load_brief_record_from_file()
+    read_brief_record(brief_record)
+
+
+func load_brief_record_from_file() -> BriefRecord:
     # 确保records文件夹存在
     DirAccess.make_dir_absolute("user://records")
 
@@ -32,8 +37,12 @@ func load_record() -> void:
         record.save_to(filename)
         is_new_record = true
 
+    return record.get_brief()
+
+
+func read_brief_record(brief_record: BriefRecord) -> void:
     # 为每个定时器分配类型，设置时间，并监听点击事件
-    var total_times: Dictionary = record.get_total_times()
+    var total_times: Dictionary = brief_record.total_times
     var type = 1
     for timer: TimerButton in timers.get_children():
         timer.clicked.connect(_on_timer_button_clicked)
@@ -47,12 +56,12 @@ func load_record() -> void:
 
     # 找到当前是哪个计时器处于激活状态
     var active_timer_button: TimerButton
-    if record.size() == 0:
+    if brief_record.is_empty:
         # 默认第一个处于激活状态
         active_timer_button = timers.get_child(0)
     else:
         # 根据最后一个记录来决定
-        var last_type: int = record.peek().type
+        var last_type: int = brief_record.last_activated_type
         for timer: TimerButton in timers.get_children():
             if timer.type == last_type:
                 active_timer_button = timer
@@ -60,10 +69,10 @@ func load_record() -> void:
     
     # 激活最后使用的计时器，并把从最后一次记录到目前为止的时间给它加上
     active_timer_button.button_pressed = true
-    if record.size() == 0:
+    if brief_record.is_empty:
         active_timer_button.cumulative_time += Metronome.last_seconds
     else:
-        active_timer_button.cumulative_time += Metronome.last_seconds - record.peek().timestamp
+        active_timer_button.cumulative_time += Metronome.last_seconds - brief_record.last_timestamp
 
 
 func tick(seconds: int):
