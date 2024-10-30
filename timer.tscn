@@ -1,0 +1,111 @@
+[gd_scene load_steps=10 format=3 uid="uid://c15qjt16ev6pl"]
+
+[ext_resource type="Script" path="res://Scripts/timer_button.gd" id="1_mrocc"]
+[ext_resource type="ButtonGroup" uid="uid://dn3y32m3is5w5" path="res://timer_button_group.tres" id="1_xghc5"]
+[ext_resource type="Script" path="res://Scripts/responsive_label.gd" id="3_2fp26"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_es235"]
+bg_color = Color(0.0640165, 0.526372, 0.793584, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="InputEventKey" id="InputEventKey_ircie"]
+resource_local_to_scene = true
+device = -1
+keycode = 49
+unicode = 49
+
+[sub_resource type="InputEventKey" id="InputEventKey_skdni"]
+resource_local_to_scene = true
+device = -1
+keycode = 4194439
+unicode = 49
+
+[sub_resource type="Shortcut" id="Shortcut_i2s0b"]
+resource_local_to_scene = true
+events = [SubResource("InputEventKey_ircie"), SubResource("InputEventKey_skdni")]
+
+[sub_resource type="LabelSettings" id="LabelSettings_g3bes"]
+font_size = 64
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_gl33a"]
+font_size = 32
+outline_size = 6
+outline_color = Color(0, 0, 0, 1)
+
+[node name="TimerButton" type="Button"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 0
+theme_type_variation = &"TimeLabel"
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_es235")
+theme_override_styles/hover = SubResource("StyleBoxFlat_es235")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_es235")
+theme_override_styles/normal = SubResource("StyleBoxFlat_es235")
+toggle_mode = true
+action_mode = 0
+button_group = ExtResource("1_xghc5")
+shortcut = SubResource("Shortcut_i2s0b")
+shortcut_in_tooltip = false
+script = ExtResource("1_mrocc")
+base_color = Color(0.0627451, 0.52549, 0.792157, 1)
+
+[node name="Labels" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TimeLabel" type="Label" parent="Labels"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -127.0
+offset_top = -44.0
+offset_right = 127.0
+offset_bottom = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "00:00:00"
+label_settings = SubResource("LabelSettings_g3bes")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("3_2fp26")
+
+[node name="NameLabel" type="Label" parent="Labels"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -48.0
+offset_right = 48.0
+offset_bottom = 45.0
+grow_horizontal = 2
+text = "任务名"
+label_settings = SubResource("LabelSettings_gl33a")
+horizontal_alignment = 1
+script = ExtResource("3_2fp26")
+label_size_ratio = 0.2
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

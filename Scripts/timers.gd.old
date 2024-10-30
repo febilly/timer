@@ -1,0 +1,35 @@
+extends GridContainer
+class_name Timers
+
+const DESIRED_RATIO = 16.0 / 9.0
+
+func _process(delta: float) -> void:
+    # 根据屏幕比例动态调整列数
+    var width: float = get_viewport().size.x
+    var height: float = get_viewport().size.y
+    var screen_ratio: float = width / height
+    
+    var timer_count = get_child_count()
+
+    # 先计算一个对象要占据多少纵向空间
+    var item_height_ratio = screen_ratio / DESIRED_RATIO
+
+    # 总纵向空间比例
+    var total_height_ratio = item_height_ratio * timer_count
+
+    # 理想情况下的列数
+    var ideal_columns = sqrt(total_height_ratio)
+
+    # 先四舍五入试试？
+    var target_columns = round(ideal_columns)
+
+    # 不要有空列
+    target_columns = min(target_columns, timer_count)
+
+    # 找到对应的行数
+    var target_rows = ceil(timer_count / target_columns)
+
+    # 在这个行数的限制下，尽可能使用最少的列数，以在不增加行数的前提下，尽可能减少最后一行的空缺
+    target_columns = ceil(timer_count / target_rows)
+
+    columns = target_columns

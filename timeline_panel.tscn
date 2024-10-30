@@ -1,0 +1,78 @@
+[gd_scene load_steps=7 format=3 uid="uid://d4dfy5ly586ai"]
+
+[ext_resource type="Script" path="res://Scripts/timeline_panel.gd" id="1_bwsgm"]
+[ext_resource type="StyleBox" uid="uid://cq3kjs4tko8fv" path="res://white_box.tres" id="2_688nn"]
+[ext_resource type="Script" path="res://Scripts/responsive_label.gd" id="3_pydj5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_wu7j7"]
+font_size = 32
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_3pgx8"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hhbae"]
+gradient = SubResource("Gradient_3pgx8")
+width = 320
+height = 27
+
+[node name="TimelinePanel" type="Control"]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bwsgm")
+max_width = 1024
+
+[node name="TimelinePanelAspect" type="AspectRatioContainer" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+ratio = 3.75
+
+[node name="Panel" type="Panel" parent="TimelinePanelAspect"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_688nn")
+
+[node name="MarginContainer" type="MarginContainer" parent="TimelinePanelAspect/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TimelinePanelAspect/Panel/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="DateLabel" type="Label" parent="TimelinePanelAspect/Panel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "2024-10-28"
+label_settings = SubResource("LabelSettings_wu7j7")
+script = ExtResource("3_pydj5")
+label_size_ratio = 0.3
+
+[node name="TimelineBar" type="TextureRect" parent="TimelinePanelAspect/Panel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+texture = SubResource("GradientTexture2D_hhbae")
+expand_mode = 5
+stretch_mode = 5
