@@ -10,6 +10,6 @@ func get_seconds_of_the_day() -> int:
 
 func _process(delta: float) -> void:
     var now_seconds = get_seconds_of_the_day()
-    if now_seconds > last_seconds:
+    if now_seconds != last_seconds:
         last_seconds = now_seconds
         tick.emit(now_seconds)

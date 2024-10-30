@@ -11,6 +11,8 @@ var record: Record  # 客户端中可能为空
 # var brief_record: BriefRecord
 var is_new_record: bool = false
 
+var previous_date: String
+
 func is_run_in_server_mode():
 	return OS.has_feature("editor") or "--server" in OS.get_cmdline_user_args()
 	# return true
@@ -56,6 +58,7 @@ func load_brief_record_from_file():
 
 	# 读取或创建今天的记录
 	var date: String = Time.get_date_string_from_system()
+	previous_date = date
 	filename = "user://records/%s.res" % date
 	# var time_dict: Dictionary = Time.get_time_dict_from_system()
 	# filename = "user://records/%s_%s-%s.res" % [date, time_dict["hour"], time_dict["minute"]]
@@ -112,8 +115,9 @@ func tick(seconds: int):
 		if seconds % 60 == 0:
 			record.save_to(filename)
 
-		# 如果到了新的一天（0时0分0秒，FIXME: 没考虑到时间跳跃的问题），重新加载
-		if seconds == 0:
+		# 如果到了新的一天，重新加载
+		if previous_date != Time.get_date_string_from_system():
+			print("new day")
 			server_load_record()
 
 func _exit_tree() -> void:
