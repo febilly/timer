@@ -34,15 +34,20 @@ func _ready() -> void:
 	Metronome.tick.connect(tick)
 
 func _process(delta: float) -> void:
-	rescale_labels()
+	update_labels()
 
 
 func tick(seconds: int):
 	if button_pressed:
 		cumulative_time += 1
 
-func rescale_labels() -> void:
+func update_labels() -> void:
 	for label: Label in labels.get_children():
+		if button_pressed:
+			label.label_settings.font_color = Color.WHITE
+		else:
+			label.label_settings.font_color = Color.DIM_GRAY
+
 		if label is ResponsiveLabel:
 			label = label as ResponsiveLabel
 			label.update_font_size(size)
@@ -57,12 +62,16 @@ func _set_color(color: Color) -> void:
 
 	begin_bulk_theme_override()
 
-	var normal_color: Color = color.darkened(0.7)
+	var normal_color: Color = color
+	normal_color.s *= 0.4
+	normal_color.v *= 0.25
 	style_box = base_style_box.duplicate()
 	style_box.bg_color = normal_color
 	add_theme_stylebox_override("normal", style_box)
 	
-	var hover_color: Color = color.darkened(0.8)
+	var hover_color: Color = color
+	hover_color.s *= 0.4
+	hover_color.v *= 0.2
 	style_box = base_style_box.duplicate()
 	style_box.bg_color = hover_color
 	add_theme_stylebox_override("hover", style_box)

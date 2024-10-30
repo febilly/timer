@@ -34,11 +34,13 @@ resource_local_to_scene = true
 events = [SubResource("InputEventKey_ircie"), SubResource("InputEventKey_skdni")]
 
 [sub_resource type="LabelSettings" id="LabelSettings_g3bes"]
+resource_local_to_scene = true
 font_size = 64
 outline_size = 8
 outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_gl33a"]
+resource_local_to_scene = true
 font_size = 32
 outline_size = 6
 outline_color = Color(0, 0, 0, 1)
