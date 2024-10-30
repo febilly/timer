@@ -40,12 +40,13 @@ func get_total_times() -> Dictionary:
 
 func get_brief() -> BriefRecord:
 	var brief := BriefRecord.new()
-	brief.total_times = get_total_times()
 	if is_empty():
 		brief.is_empty = true
 	else:
+		brief.total_times = get_total_times()
 		brief.is_empty = false
 		brief.last_activated_type = entries.back().type
+		brief.last_timestamp = entries.back().timestamp
 		return brief
 	
 	return brief
