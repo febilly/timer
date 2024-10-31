@@ -45,14 +45,14 @@ func _ready() -> void:
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
 func server_load_record() -> void:
-	load_brief_record_from_file()
+	load_record()
 
 	# 让服务端自己以及已连接的客户端重新加载
 	var brief_record: BriefRecord = record.get_brief()
 	read_brief_record.rpc(brief_record.to_dict())
 
 # 将record存在类变量中
-func load_brief_record_from_file():
+func load_record():
 	# 确保records文件夹存在
 	DirAccess.make_dir_absolute("user://records")
 
