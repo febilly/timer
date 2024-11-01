@@ -1,7 +1,7 @@
 extends GridContainer
 class_name Timers
 
-@export var desired_ratio := 16.0 / 9.0
+@export_range(0.1, 10) var desired_ratio := 2.0
 @export var auto_adjust := true
 
 func _process(delta: float) -> void:
