@@ -18,28 +18,27 @@ signal clicked(timer_button: TimerButton)
 @onready var time_label: Label = $Labels/TimeLabel
 @onready var name_label: Label = $Labels/NameLabel
 
-var cumulative_time: int = 0:
-	set(v):
-		cumulative_time = v
-		var seconds: int = v % 60
-		var minutes: int = v / 60
-		var hours: int = v / 3600
-		time_label.text = "%02d:%02d:%02d" % [hours, minutes % 60, seconds % 60]
+var cumulative_time: int = 0
+var last_timestamp: int = 0
 
 
 func _ready() -> void:
 	# _set_color(base_color)
 	name_label.text = type_name
 
-	Metronome.tick.connect(tick)
-
 func _process(delta: float) -> void:
 	update_labels()
 
-
-func tick(seconds: int):
+# 由main.gd调用
+func update_time() -> void:
+	var total_sec: int = cumulative_time
 	if button_pressed:
-		cumulative_time += 1
+		total_sec += Metronome.last_seconds - last_timestamp
+
+	var seconds: int = total_sec % 60
+	var minutes: int = (total_sec / 60) % 60
+	var hours: int = total_sec / 3600
+	time_label.text = "%02d:%02d:%02d" % [hours, minutes, seconds]
 
 func update_labels() -> void:
 	for label: Label in labels.get_children():
@@ -55,7 +54,6 @@ func update_labels() -> void:
 func set_color(color: Color) -> void:
 	_set_color(color)
 	base_color = color
-
 
 func _set_color(color: Color) -> void:
 	var style_box
@@ -100,6 +98,3 @@ func flash() -> void:
 	# await get_tree().create_timer(0.05, false).timeout
 	_set_color(base_color)
 	labels.show()
-
-func set_time(time: int):
-	cumulative_time = time

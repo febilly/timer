@@ -75,18 +75,19 @@ func load_record():
 
 @rpc("authority", "call_local", "reliable")
 func read_brief_record(brief_record_dict: Dictionary) -> void:
-	# 为每个定时器分配类型，设置时间，并监听点击事件
 	var brief_record = BriefRecord.from_dict(brief_record_dict)
 	var total_times: Dictionary = brief_record.total_times
+
+	# 为每个定时器分配类型，设置时间，并监听点击事件
 	var type = 1
 	for timer: TimerButton in timers.get_children():
 		timer.type = type
 		timer.set_color(Palette.get_color(type))
 		type += 1
 		if timer.type in total_times:
-			timer.set_time(total_times[timer.type])
+			timer.cumulative_time = total_times[timer.type]
 		else:
-			timer.set_time(0)
+			timer.cumulative_time = 0
 
 	# 找到当前是哪个计时器处于激活状态
 	var active_timer_button: TimerButton
@@ -101,15 +102,24 @@ func read_brief_record(brief_record_dict: Dictionary) -> void:
 				active_timer_button = timer
 				break
 	
-	# 激活最后使用的计时器，并把从最后一次记录到目前为止的时间给它加上
+	# 先禁用掉所有计时器
+	for timer: TimerButton in timers.get_children():
+		timer.button_pressed = false
+
+	# 激活最后使用的计时器，并让它知道上次点击的时间
 	active_timer_button.button_pressed = true
-	if brief_record.is_empty:
-		active_timer_button.cumulative_time += Metronome.last_seconds
-	else:
-		active_timer_button.cumulative_time += Metronome.last_seconds - brief_record.last_timestamp
+	active_timer_button.last_timestamp = brief_record.last_timestamp
+
+	# 更新所有计时器
+	for timer: TimerButton in timers.get_children():
+		timer.update_time()
 
 
 func tick(seconds: int):
+	# 更新所有计时器
+	for timer: TimerButton in timers.get_children():
+		timer.update_time()
+
 	if multiplayer.is_server():
 		# 每分钟将记录写入磁盘
 		if seconds % 60 == 0:
