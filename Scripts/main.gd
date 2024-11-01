@@ -14,7 +14,8 @@ var is_new_record: bool = false
 var previous_date: String
 
 func is_run_in_server_mode():
-	return OS.has_feature("editor") or "--server" in OS.get_cmdline_user_args()
+	return "--server" in OS.get_cmdline_args()
+	# return OS.has_feature("editor") or "--server" in OS.get_cmdline_args()
 	# return true
 
 func _ready() -> void:
