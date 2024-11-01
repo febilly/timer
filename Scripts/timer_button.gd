@@ -69,7 +69,10 @@ func _set_color(color: Color) -> void:
 	
 	var hover_color: Color = color
 	hover_color.s *= 0.4
-	hover_color.v *= 0.2
+	if OS.has_feature("mobile") or OS.has_feature("web_android") or OS.has_feature("web_ios"):
+		hover_color.v *= 0.25
+	else:
+		hover_color.v *= 0.2
 	style_box = base_style_box.duplicate()
 	style_box.bg_color = hover_color
 	add_theme_stylebox_override("hover", style_box)
