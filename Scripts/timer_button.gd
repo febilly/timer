@@ -74,8 +74,10 @@ func _set_color(color: Color) -> void:
 	style_box.bg_color = hover_color
 	add_theme_stylebox_override("hover", style_box)
 	
+	var pressed_color: Color = color
+	pressed_color.v *= 0.8
 	style_box = base_style_box.duplicate()
-	style_box.bg_color = color
+	style_box.bg_color = pressed_color
 	add_theme_stylebox_override("pressed", style_box)
 	add_theme_stylebox_override("hover_pressed", style_box)
 
