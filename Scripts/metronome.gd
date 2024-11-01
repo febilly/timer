@@ -3,7 +3,7 @@ extends Node
 signal tick(seconds: int)
 signal time_synced()
 
-var last_seconds := get_seconds_of_the_day()
+var seconds := get_seconds_of_the_day()
 
 var offset_sec: float = 0
 var request_start_timestamp: float = 0
@@ -13,10 +13,10 @@ func _ready() -> void:
 	multiplayer.connected_to_server.connect(_on_connected_ok)
 
 func _process(delta: float) -> void:
-	var now_seconds = get_seconds_of_the_day()
-	if now_seconds != last_seconds:
-		last_seconds = now_seconds
-		tick.emit(now_seconds)
+	var new_seconds = get_seconds_of_the_day()
+	if new_seconds != seconds:
+		seconds = new_seconds
+		tick.emit(new_seconds)
 
 
 func get_seconds_of_the_day() -> int:

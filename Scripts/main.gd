@@ -97,9 +97,9 @@ func read_brief_record(brief_record_dict: Dictionary) -> void:
 		active_timer_button = timers.get_child(0)
 	else:
 		# 根据最后一个记录来决定
-		var last_type: int = brief_record.last_activated_type
+		var activated_type: int = brief_record.last_activated_type
 		for timer: TimerButton in timers.get_children():
-			if timer.type == last_type:
+			if timer.type == activated_type:
 				active_timer_button = timer
 				break
 	
@@ -151,7 +151,7 @@ func server_change_timer(timer_type: int) -> void:
 	# 添加一条新的记录
 	var new_record: Entry = Entry.new()
 	new_record.type = timer_type
-	new_record.timestamp = Metronome.last_seconds
+	new_record.timestamp = Metronome.seconds
 	record.push(new_record)
 
 	# 让服务端自己以及已连接的客户端重新加载

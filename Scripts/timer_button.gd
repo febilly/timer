@@ -18,8 +18,8 @@ signal clicked(timer_button: TimerButton)
 @onready var time_label: Label = $Labels/TimeLabel
 @onready var name_label: Label = $Labels/NameLabel
 
-var cumulative_time: int = 0
-var last_timestamp: int = 0
+var cumulative_time: int = 0  # 之前已经计时的时间，不包含此次按下以来经过的时间（如果现在已经被按下）
+var last_timestamp: int = 0  # 最近一次按下的时间戳
 
 
 func _ready() -> void:
@@ -33,7 +33,7 @@ func _process(delta: float) -> void:
 func update_time() -> void:
 	var total_sec: int = cumulative_time
 	if button_pressed:
-		total_sec += Metronome.last_seconds - last_timestamp
+		total_sec += Metronome.seconds - last_timestamp
 
 	var seconds: int = total_sec % 60
 	var minutes: int = (total_sec / 60) % 60
