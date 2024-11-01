@@ -28,6 +28,10 @@ window/energy_saving/keep_screen_on=false
 window/stretch/aspect="expand"
 window/handheld/orientation=6
 
+[global_group]
+
+timer_buttons=""
+
 [gui]
 
 theme/custom="res://theme.tres"

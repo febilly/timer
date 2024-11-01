@@ -45,7 +45,7 @@ font_size = 32
 outline_size = 6
 outline_color = Color(0, 0, 0, 1)
 
-[node name="TimerButton" type="Button"]
+[node name="TimerButton" type="Button" groups=["timer_buttons"]]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
