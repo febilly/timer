@@ -21,6 +21,7 @@ signal clicked(timer_button: TimerButton)
 var cumulative_time: int = 0  # 之前已经计时的时间，不包含此次按下以来经过的时间（如果现在已经被按下）
 var last_timestamp: int = 0  # 最近一次按下的时间戳
 
+var was_pressed: bool = false
 
 func _ready() -> void:
 	# _set_color(base_color)
@@ -28,6 +29,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	update_labels()
+	was_pressed = button_pressed
 
 # 由main.gd调用
 func update_time() -> void:
@@ -90,8 +92,7 @@ func get_random_color() -> Color:
 	return Color.from_hsv(randf(), 0.9, 0.8)
 
 func _on_pressed() -> void:
-	clicked.emit(self)
-	flash()
+	local_press()
 
 func flash() -> void:
 	_set_color(Color.BLACK)
@@ -103,3 +104,25 @@ func flash() -> void:
 	# await get_tree().create_timer(0.05, false).timeout
 	_set_color(base_color)
 	labels.show()
+
+func local_press() -> void:
+	# button_pressed = true
+
+	if not was_pressed:
+		last_timestamp = Metronome.seconds
+
+	clicked.emit(self)
+	flash()
+
+func local_release() -> void:
+	if button_pressed:
+		button_pressed = false
+		cumulative_time += Metronome.seconds - last_timestamp
+		
+func remote_press() -> void:
+	button_pressed = true
+	pass
+
+func remote_release() -> void:
+	button_pressed = false
+	pass

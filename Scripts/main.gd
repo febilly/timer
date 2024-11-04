@@ -107,8 +107,15 @@ func read_brief_record(brief_record_dict: Dictionary) -> void:
 	for timer: TimerButton in timers.get_children():
 		timer.button_pressed = false
 
-	# 激活最后使用的计时器，并让它知道上次点击的时间
-	active_timer_button.button_pressed = true
+	# 设置各个计时器的激活状态
+	# active_timer_button.button_pressed = true
+	for timer: TimerButton in timers.get_children():
+		if timer == active_timer_button:
+			timer.remote_press()
+		else:
+			timer.remote_release()
+
+	# 让最后使用的计时器知道上次点击的时间
 	active_timer_button.last_timestamp = brief_record.last_timestamp
 
 	# 更新所有计时器
@@ -136,11 +143,15 @@ func _exit_tree() -> void:
 		# 退出时保存记录
 		record.save_to(filename)
 
-func _on_timer_button_clicked(timer_button: TimerButton):
-	server_change_timer.rpc_id(1, timer_button.type)
+func _on_timer_button_clicked(timer_pressed: TimerButton):
+	for timer: TimerButton in timers.get_children():
+		if timer != timer_pressed:
+			timer.local_release()
+
+	server_change_timer.rpc_id(1, timer_pressed.type, Metronome.seconds)
 
 @rpc("any_peer", "call_local", "reliable")
-func server_change_timer(timer_type: int) -> void:
+func server_change_timer(timer_type: int, seconds_on_request: int) -> void:
 	if not multiplayer.is_server():
 		return
 
@@ -151,7 +162,7 @@ func server_change_timer(timer_type: int) -> void:
 	# 添加一条新的记录
 	var new_record: Entry = Entry.new()
 	new_record.type = timer_type
-	new_record.timestamp = Metronome.seconds
+	new_record.timestamp = seconds_on_request
 	record.push(new_record)
 
 	# 让服务端自己以及已连接的客户端重新加载

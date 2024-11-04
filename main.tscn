@@ -1,8 +1,10 @@
-[gd_scene load_steps=28 format=3 uid="uid://byvxicb6quq0o"]
+[gd_scene load_steps=36 format=3 uid="uid://byvxicb6quq0o"]
 
 [ext_resource type="PackedScene" uid="uid://c15qjt16ev6pl" path="res://timer.tscn" id="1_464v5"]
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_jq2iv"]
 [ext_resource type="Script" path="res://Scripts/timers_container.gd" id="2_yyep3"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_r4hox"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_pns6p"]
 resource_local_to_scene = true
@@ -20,6 +22,8 @@ unicode = 49
 resource_local_to_scene = true
 events = [SubResource("InputEventKey_pns6p"), SubResource("InputEventKey_kbr1n")]
 
+[sub_resource type="ButtonGroup" id="ButtonGroup_pg7tn"]
+
 [sub_resource type="InputEventKey" id="InputEventKey_ksdbi"]
 resource_local_to_scene = true
 device = -1
@@ -35,6 +39,8 @@ unicode = 49
 [sub_resource type="Shortcut" id="Shortcut_11oar"]
 resource_local_to_scene = true
 events = [SubResource("InputEventKey_ksdbi"), SubResource("InputEventKey_no3lw")]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_p5dr3"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_ldd63"]
 resource_local_to_scene = true
@@ -52,6 +58,8 @@ unicode = 49
 resource_local_to_scene = true
 events = [SubResource("InputEventKey_ldd63"), SubResource("InputEventKey_1qfsq")]
 
+[sub_resource type="ButtonGroup" id="ButtonGroup_ovdvu"]
+
 [sub_resource type="InputEventKey" id="InputEventKey_ufpvy"]
 resource_local_to_scene = true
 device = -1
@@ -67,6 +75,8 @@ unicode = 49
 [sub_resource type="Shortcut" id="Shortcut_13ml6"]
 resource_local_to_scene = true
 events = [SubResource("InputEventKey_ufpvy"), SubResource("InputEventKey_x88ec")]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_y73i4"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_e0iwo"]
 resource_local_to_scene = true
@@ -84,6 +94,8 @@ unicode = 49
 resource_local_to_scene = true
 events = [SubResource("InputEventKey_e0iwo"), SubResource("InputEventKey_cucms")]
 
+[sub_resource type="ButtonGroup" id="ButtonGroup_66jsv"]
+
 [sub_resource type="InputEventKey" id="InputEventKey_eifot"]
 resource_local_to_scene = true
 device = -1
@@ -100,6 +112,8 @@ unicode = 49
 resource_local_to_scene = true
 events = [SubResource("InputEventKey_eifot"), SubResource("InputEventKey_hqy3n")]
 
+[sub_resource type="ButtonGroup" id="ButtonGroup_0gf4i"]
+
 [sub_resource type="InputEventKey" id="InputEventKey_ujalb"]
 resource_local_to_scene = true
 device = -1
@@ -115,6 +129,8 @@ unicode = 49
 [sub_resource type="Shortcut" id="Shortcut_07ii6"]
 resource_local_to_scene = true
 events = [SubResource("InputEventKey_ujalb"), SubResource("InputEventKey_qtsot")]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_f25t7"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_s1fkj"]
 resource_local_to_scene = true
@@ -159,32 +175,40 @@ script = ExtResource("2_yyep3")
 
 [node name="TimerButton" parent="MarginContainer/TimersContainer" instance=ExtResource("1_464v5")]
 layout_mode = 2
+button_group = SubResource("ButtonGroup_r4hox")
 shortcut = SubResource("Shortcut_dbqre")
 
 [node name="TimerButton2" parent="MarginContainer/TimersContainer" instance=ExtResource("1_464v5")]
 layout_mode = 2
+button_group = SubResource("ButtonGroup_pg7tn")
 shortcut = SubResource("Shortcut_11oar")
 
 [node name="TimerButton3" parent="MarginContainer/TimersContainer" instance=ExtResource("1_464v5")]
 layout_mode = 2
+button_group = SubResource("ButtonGroup_p5dr3")
 shortcut = SubResource("Shortcut_ktavo")
 
 [node name="TimerButton4" parent="MarginContainer/TimersContainer" instance=ExtResource("1_464v5")]
 layout_mode = 2
+button_group = SubResource("ButtonGroup_ovdvu")
 shortcut = SubResource("Shortcut_13ml6")
 
 [node name="TimerButton5" parent="MarginContainer/TimersContainer" instance=ExtResource("1_464v5")]
 layout_mode = 2
+button_group = SubResource("ButtonGroup_y73i4")
 shortcut = SubResource("Shortcut_d7d2h")
 
 [node name="TimerButton6" parent="MarginContainer/TimersContainer" instance=ExtResource("1_464v5")]
 layout_mode = 2
+button_group = SubResource("ButtonGroup_66jsv")
 shortcut = SubResource("Shortcut_yusr6")
 
 [node name="TimerButton7" parent="MarginContainer/TimersContainer" instance=ExtResource("1_464v5")]
 layout_mode = 2
+button_group = SubResource("ButtonGroup_0gf4i")
 shortcut = SubResource("Shortcut_07ii6")
 
 [node name="TimerButton8" parent="MarginContainer/TimersContainer" instance=ExtResource("1_464v5")]
 layout_mode = 2
+button_group = SubResource("ButtonGroup_f25t7")
 shortcut = SubResource("Shortcut_vby6h")

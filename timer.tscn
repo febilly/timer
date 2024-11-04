@@ -1,7 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://c15qjt16ev6pl"]
 
 [ext_resource type="Script" path="res://Scripts/timer_button.gd" id="1_mrocc"]
-[ext_resource type="ButtonGroup" uid="uid://dn3y32m3is5w5" path="res://timer_button_group.tres" id="1_xghc5"]
 [ext_resource type="Script" path="res://Scripts/responsive_label.gd" id="3_2fp26"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_es235"]
@@ -16,6 +15,8 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 shadow_offset = Vector2(2, 2)
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_wbksr"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_ircie"]
 resource_local_to_scene = true
@@ -61,7 +62,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_es235")
 theme_override_styles/normal = SubResource("StyleBoxFlat_es235")
 toggle_mode = true
 action_mode = 0
-button_group = ExtResource("1_xghc5")
+button_group = SubResource("ButtonGroup_wbksr")
 shortcut = SubResource("Shortcut_i2s0b")
 shortcut_in_tooltip = false
 script = ExtResource("1_mrocc")
