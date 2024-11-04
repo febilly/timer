@@ -9,7 +9,7 @@ signal clicked(timer_button: TimerButton)
 		type = v
 		shortcut.events[0].keycode = 48 + v
 		shortcut.events[1].keycode = 4194438 + v
-@export var type_name: String = "任务名"
+@export var type_name: String = "Name"
 
 @export var base_style_box: StyleBoxFlat = preload("res://button.tres")
 @export var base_color: Color = Color.from_hsv(0.56, 0.9, 0.8)
