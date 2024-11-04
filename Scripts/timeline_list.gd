@@ -11,6 +11,9 @@ func _ready() -> void:
 	var records = DirAccess.get_files_at(RECORDS_PATH)
 	records.reverse()
 	for record in records:
+		if not record.ends_with(".res"):
+			continue
+
 		var filepath = RECORDS_PATH + "/" + record
 		var date = record.split(".")[0]
 		# print(filepath)
