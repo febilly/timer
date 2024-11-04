@@ -27,15 +27,15 @@ func is_empty() -> bool:
 func get_total_times() -> Dictionary:
 	var total_times := Dictionary()
 	var last_timestamp := 0
-	var last_type := 1
+	var last_timer_name := TimerTypeList.at(0).timer_name
 	for entry in entries:
 		var segment_length := entry.timestamp - last_timestamp
 		last_timestamp = entry.timestamp
-		if last_type in total_times:
-			total_times[last_type] += segment_length
+		if last_timer_name in total_times:
+			total_times[last_timer_name] += segment_length
 		else:
-			total_times[last_type] = segment_length
-		last_type = entry.type
+			total_times[last_timer_name] = segment_length
+		last_timer_name = entry.timer_name
 	return total_times
 
 func get_brief() -> BriefRecord:
@@ -45,7 +45,7 @@ func get_brief() -> BriefRecord:
 	else:
 		brief.total_times = get_total_times()
 		brief.is_empty = false
-		brief.last_activated_type = entries.back().type
+		brief.last_activated_name = entries.back().timer_name
 		brief.last_timestamp = entries.back().timestamp
 		return brief
 	

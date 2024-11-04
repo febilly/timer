@@ -80,26 +80,34 @@ func read_brief_record(brief_record_dict: Dictionary) -> void:
 	var total_times: Dictionary = brief_record.total_times
 
 	# 为每个定时器分配类型，设置时间，并监听点击事件
-	var type = 1
+	var index = TimerTypeList.default_type_index
 	for timer: TimerButton in timers.get_children():
-		timer.type = type
-		timer.set_color(Palette.get_color(type))
-		type += 1
-		if timer.type in total_times:
-			timer.cumulative_time = total_times[timer.type]
+		timer.index = index
+		var timer_type := TimerTypeList.at(index)
+		timer.timer_name = timer_type.timer_name
+		timer.set_color(timer_type.color)
+		index += 1
+		if timer.timer_name in total_times:
+			timer.cumulative_time = total_times[timer.timer_name]
 		else:
 			timer.cumulative_time = 0
 
 	# 找到当前是哪个计时器处于激活状态
 	var active_timer_button: TimerButton
 	if brief_record.is_empty:
-		# 默认第一个处于激活状态
-		active_timer_button = timers.get_child(0)
+		# 使用TimerTypeList中记录的默认的第几个
+		for timer: TimerButton in timers.get_children():
+			if timer.timer_name == TimerTypeList.at(TimerTypeList.default_type_index).timer_name:
+				active_timer_button = timer
+				break
+
+		# TODO: 处理没有匹配项的情况
+
 	else:
 		# 根据最后一个记录来决定
-		var activated_type: int = brief_record.last_activated_type
+		var activated_name: String = brief_record.last_activated_name
 		for timer: TimerButton in timers.get_children():
-			if timer.type == activated_type:
+			if timer.timer_name == activated_name:
 				active_timer_button = timer
 				break
 	
@@ -148,20 +156,20 @@ func _on_timer_button_clicked(timer_pressed: TimerButton):
 		if timer != timer_pressed:
 			timer.local_release()
 
-	server_change_timer.rpc_id(1, timer_pressed.type, Metronome.seconds)
+	server_change_timer.rpc_id(1, timer_pressed.timer_name, Metronome.seconds)
 
 @rpc("any_peer", "call_local", "reliable")
-func server_change_timer(timer_type: int, seconds_on_request: int) -> void:
+func server_change_timer(timer_name: String, seconds_on_request: int) -> void:
 	if not multiplayer.is_server():
 		return
 
 	# 如果点击的是当前激活的计时器，不做任何操作
-	if record.size() > 0 and record.peek().type == timer_type:
+	if record.size() > 0 and record.peek().timer_name == timer_name:
 		return
 
 	# 添加一条新的记录
 	var new_record: Entry = Entry.new()
-	new_record.type = timer_type
+	new_record.timer_name = timer_name
 	new_record.timestamp = seconds_on_request
 	record.push(new_record)
 

@@ -22,7 +22,7 @@ static func render(record: Record, size: Vector2i, step_sec: int):
 				index += 1
 				if index == record_size:
 					return image
-				color = Palette.get_color(record.entries[index].type)
+				color = TimerTypeList.get_color(record.entries[index].timer_name)
 
 			image.set_pixel(x, y, color)
 

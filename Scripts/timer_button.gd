@@ -3,13 +3,17 @@ class_name TimerButton
 
 signal clicked(timer_button: TimerButton)
 
-@export var type: int = 1:
+@export var index: int = 0:
 	set(v):
 		# print(shortcut.events[0])
-		type = v
-		shortcut.events[0].keycode = 48 + v
-		shortcut.events[1].keycode = 4194438 + v
-@export var type_name: String = "Name"
+		index = v
+		shortcut.events[0].keycode = 48 + v + 1
+		shortcut.events[1].keycode = 4194438 + v + 1
+@export var timer_name: String = "Name":
+	set(v):
+		timer_name = v
+		if name_label:
+			name_label.text = v
 
 @export var base_style_box: StyleBoxFlat = preload("res://button.tres")
 @export var base_color: Color = Color.from_hsv(0.56, 0.9, 0.8)
@@ -25,7 +29,7 @@ var was_pressed: bool = false
 
 func _ready() -> void:
 	# _set_color(base_color)
-	name_label.text = type_name
+	name_label.text = timer_name
 
 func _process(delta: float) -> void:
 	update_labels()

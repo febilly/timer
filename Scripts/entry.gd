@@ -1,5 +1,5 @@
 extends Resource
 class_name Entry
 
-@export var type: int
+@export var timer_name: String
 @export var timestamp: int
