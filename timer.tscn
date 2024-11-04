@@ -42,8 +42,8 @@ outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_gl33a"]
 resource_local_to_scene = true
-font_size = 32
-outline_size = 6
+font_size = 48
+outline_size = 8
 outline_color = Color(0, 0, 0, 1)
 
 [node name="TimerButton" type="Button" groups=["timer_buttons"]]
@@ -109,6 +109,6 @@ text = "Name"
 label_settings = SubResource("LabelSettings_gl33a")
 horizontal_alignment = 1
 script = ExtResource("3_2fp26")
-label_size_ratio = 0.2
+label_size_ratio = 0.3
 
 [connection signal="pressed" from="." to="." method="_on_pressed"]
