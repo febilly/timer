@@ -54,7 +54,7 @@ func get_brief() -> BriefRecord:
 # 保存和加载
 
 func save_to(path: String) -> int:
-	return ResourceSaver.save(self, path)
+	return ResourceSaver.save(self, path, ResourceSaver.SaverFlags.FLAG_COMPRESS)
 
 static func load_from(path: String) -> Record:
 	return ResourceLoader.load(path)
