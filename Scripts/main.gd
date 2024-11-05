@@ -55,14 +55,14 @@ func server_load_record() -> void:
 # 将record存在类变量中
 func load_record():
 	# 确保records文件夹存在
-	DirAccess.make_dir_absolute("user://records")
+	DirAccess.make_dir_absolute(Consts.get_records_folder())
 
 	# 读取或创建今天的记录
 	var date: String = Time.get_date_string_from_system()
 	previous_date = date
-	filename = "user://records/%s.res" % date
+	filename = Consts.get_records_file_path("%s.res" % date)
 	# var time_dict: Dictionary = Time.get_time_dict_from_system()
-	# filename = "user://records/%s_%s-%s.res" % [date, time_dict["hour"], time_dict["minute"]]
+	# filename = Consts.get_records_file_path("%s_%s-%s.res" % [date, time_dict["hour"], time_dict["minute"]])
 	print("filename: %s" % filename)
 
 	if FileAccess.file_exists(filename):

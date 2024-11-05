@@ -5,16 +5,17 @@ class_name TimelineList
 
 @onready var panel_container: VBoxContainer = %PanelContainer
 
-const RECORDS_PATH = "user://records"
 
 func _ready() -> void:
-	var records = DirAccess.get_files_at(RECORDS_PATH)
+	var records_path = Consts.get_records_folder()
+	var records = DirAccess.get_files_at(records_path)
 	records.reverse()
+	
 	for record in records:
 		if not record.ends_with(".res"):
 			continue
 
-		var filepath = RECORDS_PATH + "/" + record
+		var filepath = records_path + "/" + record
 		var date = record.split(".")[0]
 		# print(filepath)
 		var panel_instance: TimelinePanel = panel.instantiate()
