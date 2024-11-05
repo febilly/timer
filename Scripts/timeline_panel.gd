@@ -8,9 +8,6 @@ class_name TimelinePanel
 @onready var timeline_panel_aspect: AspectRatioContainer = %TimelinePanelAspect
 
 func _ready() -> void:
-	# var date: String = Time.get_date_string_from_system()
-	# var filepath = "user://records/%s.res" % date
-	# load_timeline(filepath)
 	pass
 
 func _process(delta: float) -> void:
