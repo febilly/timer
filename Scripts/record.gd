@@ -1,6 +1,7 @@
 extends Resource
 class_name Record
 
+const format_version: int = 1
 @export var entries: Array[Entry]
 
 # 基本操作
@@ -53,8 +54,48 @@ func get_brief() -> BriefRecord:
 
 # 保存和加载
 
-func save_to(path: String) -> int:
-	return ResourceSaver.save(self, path, ResourceSaver.SaverFlags.FLAG_COMPRESS)
+func to_dict() -> Dictionary:
+	var dict := Dictionary()
+	dict["format_version"] = format_version
+	dict["entries"] = []
+	for entry in entries:
+		dict["entries"].push_back(entry.to_dict())
+	return dict
+
+static func from_dict(dict: Dictionary) -> Record:
+	var record := Record.new()
+
+	if dict["format_version"] != format_version:
+		printerr("Error: format version mismatch")
+		return record
+
+	for entry_dict in dict["entries"]:
+		record.push(Entry.from_dict(entry_dict))
+	return record
+
+func to_json() -> String:
+	return JSON.stringify(to_dict())
+
+static func from_json(json_string: String) -> Record:
+	var json = JSON.new()
+	var error = json.parse(json_string)
+	if error != OK:
+		printerr("Error parsing JSON: %s" % [str(error)])
+		return Record.new()
+	
+	return from_dict(json.data)
+
+
+func save_to(path: String) -> void:
+	var json_string = to_json()
+	# var file := FileAccess.open_compressed(path, FileAccess.ModeFlags.WRITE, FileAccess.CompressionMode.COMPRESSION_GZIP)
+	var file := FileAccess.open(path, FileAccess.ModeFlags.WRITE)
+	file.store_string(json_string)
+	file.close()
 
 static func load_from(path: String) -> Record:
-	return ResourceLoader.load(path)
+	# var file := FileAccess.open_compressed(path, FileAccess.ModeFlags.READ, FileAccess.CompressionMode.COMPRESSION_GZIP)
+	var file := FileAccess.open(path, FileAccess.ModeFlags.READ_WRITE)
+	var json_string = file.get_as_text()
+	file.close()
+	return from_json(json_string)

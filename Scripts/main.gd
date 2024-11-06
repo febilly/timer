@@ -60,9 +60,9 @@ func load_record():
 	# 读取或创建今天的记录
 	var date: String = Time.get_date_string_from_system()
 	previous_date = date
-	filename = Consts.get_records_file_path("%s.res" % date)
+	filename = Consts.get_records_file_path("%s.json" % date)
 	# var time_dict: Dictionary = Time.get_time_dict_from_system()
-	# filename = Consts.get_records_file_path("%s_%s-%s.res" % [date, time_dict["hour"], time_dict["minute"]])
+	# filename = Consts.get_records_file_path("%s_%s-%s.json" % [date, time_dict["hour"], time_dict["minute"]])
 	print("filename: %s" % filename)
 
 	if FileAccess.file_exists(filename):

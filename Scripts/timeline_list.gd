@@ -12,7 +12,7 @@ func _ready() -> void:
 	records.reverse()
 	
 	for record in records:
-		if not record.ends_with(".res"):
+		if not record.ends_with(".json"):
 			continue
 
 		var filepath = records_path + "/" + record
