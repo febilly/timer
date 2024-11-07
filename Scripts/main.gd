@@ -34,6 +34,10 @@ func _ready() -> void:
 	for timer: TimerButton in timers.get_children():
 		timer.clicked.connect(_on_timer_button_clicked)
 
+	var udp_api := UdpApi.new()
+	udp_api.number_received.connect(_on_udp_api_number_received)
+	add_child(udp_api)
+
 	if multiplayer.is_server():
 		server_load_record()
 
@@ -157,6 +161,11 @@ func _on_timer_button_clicked(timer_pressed: TimerButton):
 			timer.local_release()
 
 	server_change_timer.rpc_id(1, timer_pressed.timer_name, Metronome.seconds)
+
+func _on_udp_api_number_received(number: int) -> void:
+	for timer: TimerButton in timers.get_children():
+		if timer.index == number:
+			timer.local_press()
 
 @rpc("any_peer", "call_local", "reliable")
 func server_change_timer(timer_name: String, seconds_on_request: int) -> void:
