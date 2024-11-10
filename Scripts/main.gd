@@ -9,7 +9,6 @@ const SERVER_IP := "127.0.0.1"
 var filename: String
 var record: Record  # 客户端中可能为空
 # var brief_record: BriefRecord
-var is_new_record: bool = false
 
 var previous_date: String
 
@@ -52,12 +51,12 @@ func server_load_record() -> void:
 	read_brief_record.rpc(brief_record.to_dict())
 
 # 将record存在类变量中
-func load_record():
+func load_record() -> void:
 	# 确保records文件夹存在
 	DirAccess.make_dir_absolute(Globals.get_records_folder())
 
 	# 读取或创建今天的记录
-	var date: String = Time.get_date_string_from_system()
+	var date: String = Metronome.get_date_string()
 	previous_date = date
 	filename = Globals.get_records_file_path("%s.json" % date)
 	# var time_dict: Dictionary = Time.get_time_dict_from_system()
@@ -66,11 +65,25 @@ func load_record():
 
 	if FileAccess.file_exists(filename):
 		record = Record.load_from(filename)
-		is_new_record = false
 	else:
-		record = Record.new()
+		var new_record = Record.new()
+
+		# 我们在t=0s创建一条记录
+		# 如果目前没有已加载的记录，说明现在是程序刚启动，我们使用默认的计时器类型
+		# 否则，使用当前激活的计时器的类型
+		var begin_timer_name: String
+		if record == null:
+			begin_timer_name = TimerTypeList.at(TimerTypeList.default_type_index).timer_name
+		else:
+			begin_timer_name = record.peek().timer_name
+
+		var new_entry: Entry = Entry.new()
+		new_entry.timestamp = 0
+		new_entry.timer_name = begin_timer_name
+		new_record.push(new_entry)
+
+		record = new_record
 		record.save_to(filename)
-		is_new_record = true
 
 
 @rpc("authority", "call_local", "reliable")
@@ -141,8 +154,8 @@ func tick(seconds: int):
 			record.save_to(filename)
 
 		# 如果到了新的一天，重新加载
-		if previous_date != Time.get_date_string_from_system():
-			print("new day")
+		if previous_date != Metronome.get_date_string():
+			print("\nNew day: %s" % Metronome.get_date_string())
 			server_load_record()
 
 func _exit_tree() -> void:
