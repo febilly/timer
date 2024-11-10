@@ -7,7 +7,7 @@ class_name TimelineList
 
 
 func _ready() -> void:
-	var records_path = Consts.get_records_folder()
+	var records_path = Globals.get_records_folder()
 	var records = DirAccess.get_files_at(records_path)
 	records.reverse()
 	

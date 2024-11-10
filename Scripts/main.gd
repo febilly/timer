@@ -13,14 +13,9 @@ var is_new_record: bool = false
 
 var previous_date: String
 
-func is_run_in_server_mode():
-	return "--server" in OS.get_cmdline_args() or OS.has_feature("dedicated_server")
-	# return OS.has_feature("editor") or "--server" in OS.get_cmdline_args()
-	# return true
-
 func _ready() -> void:
 	# print("display scale: %s" % DisplayServer.screen_get_scale())
-	if is_run_in_server_mode():
+	if Globals.is_run_in_server_mode():
 		print("running as server")
 		var peer := ENetMultiplayerPeer.new()
 		peer.create_server(PORT)
@@ -59,14 +54,14 @@ func server_load_record() -> void:
 # 将record存在类变量中
 func load_record():
 	# 确保records文件夹存在
-	DirAccess.make_dir_absolute(Consts.get_records_folder())
+	DirAccess.make_dir_absolute(Globals.get_records_folder())
 
 	# 读取或创建今天的记录
 	var date: String = Time.get_date_string_from_system()
 	previous_date = date
-	filename = Consts.get_records_file_path("%s.json" % date)
+	filename = Globals.get_records_file_path("%s.json" % date)
 	# var time_dict: Dictionary = Time.get_time_dict_from_system()
-	# filename = Consts.get_records_file_path("%s_%s-%s.json" % [date, time_dict["hour"], time_dict["minute"]])
+	# filename = Globals.get_records_file_path("%s_%s-%s.json" % [date, time_dict["hour"], time_dict["minute"]])
 	print("filename: %s" % filename)
 
 	if FileAccess.file_exists(filename):
