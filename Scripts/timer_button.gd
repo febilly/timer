@@ -27,6 +27,7 @@ var cumulative_time: int = 0  # 之前已经计时的时间，不包含此次按
 var last_timestamp: int = 0  # 最近一次按下的时间戳
 
 var was_pressed: bool = false
+var is_local_press: bool = false
 
 func _ready() -> void:
 	# _set_color(base_color)
@@ -131,6 +132,7 @@ func local_press() -> void:
 	if not was_pressed:
 		last_timestamp = Metronome.seconds
 
+	is_local_press = true
 	clicked.emit(self)
 	flash()
 
@@ -141,7 +143,11 @@ func local_release() -> void:
 		
 func remote_press() -> void:
 	button_pressed = true
-	pass
+
+	if not is_local_press:
+		flash()
+
+	is_local_press = false
 
 func remote_release() -> void:
 	button_pressed = false
