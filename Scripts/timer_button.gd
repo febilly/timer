@@ -19,7 +19,8 @@ signal clicked(timer_button: TimerButton)
 @export var base_color: Color = Color.from_hsv(0.56, 0.9, 0.8)
 
 @onready var labels: Control = $Labels
-@onready var time_label: Label = $Labels/TimeLabel
+@onready var total_time_label: Label = $Labels/TotalTimeLabel
+@onready var this_time_label: Label = $Labels/ThisTimeLabel
 @onready var name_label: Label = $Labels/NameLabel
 
 var cumulative_time: int = 0  # 之前已经计时的时间，不包含此次按下以来经过的时间（如果现在已经被按下）
@@ -38,13 +39,23 @@ func _process(delta: float) -> void:
 # 由main.gd调用
 func update_time() -> void:
 	var total_sec: int = cumulative_time
+	var elapsed_sec: int = Metronome.seconds - last_timestamp
 	if button_pressed:
-		total_sec += Metronome.seconds - last_timestamp
+		total_sec += elapsed_sec
 
-	var seconds: int = total_sec % 60
-	var minutes: int = (total_sec / 60) % 60
-	var hours: int = total_sec / 3600
-	time_label.text = "%02d:%02d:%02d" % [hours, minutes, seconds]
+	var total_seconds: int = total_sec % 60
+	var total_minutes: int = (total_sec / 60) % 60
+	var total_hours: int = total_sec / 3600
+	total_time_label.text = "%02d:%02d:%02d" % [total_hours, total_minutes, total_seconds]
+	
+	if button_pressed:
+		var this_seconds: int = elapsed_sec % 60
+		var this_minutes: int = (elapsed_sec / 60) % 60
+		var this_hours: int = elapsed_sec / 3600
+		this_time_label.text = "%02d:%02d:%02d" % [this_hours, this_minutes, this_seconds]
+	else:
+		this_time_label.text = "00:00:00"
+
 
 func update_labels() -> void:
 	for label: Label in labels.get_children():
@@ -56,6 +67,9 @@ func update_labels() -> void:
 		if label is ResponsiveLabel:
 			label = label as ResponsiveLabel
 			label.update_font_size(size)
+
+	# 如果此计时器处于激活状态，显示此次计时的时间
+	this_time_label.visible = button_pressed
 
 func set_color(color: Color) -> void:
 	_set_color(color)
