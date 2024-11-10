@@ -59,11 +59,13 @@ func update_time() -> void:
 
 func update_labels() -> void:
 	for label: Label in labels.get_children():
+		# 更新字体颜色
 		if button_pressed:
 			label.label_settings.font_color = Color.WHITE
 		else:
 			label.label_settings.font_color = Color.DIM_GRAY
 
+		# 更新标签大小
 		if label is ResponsiveLabel:
 			label = label as ResponsiveLabel
 			label.update_font_size(size)
