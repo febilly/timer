@@ -52,6 +52,8 @@ func server_load_record() -> void:
 
 # 将record存在类变量中
 func load_record() -> void:
+	print("user folder path: %s" % OS.get_user_data_dir())
+
 	# 确保records文件夹存在
 	DirAccess.make_dir_absolute(Globals.get_records_folder())
 
