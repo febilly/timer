@@ -19,5 +19,5 @@ Warning:
 3. Export your executables
 
 ## Command line arguments:
-- `--server` and `--client`: run the app in server/client mode
+- `--server`: run the app in server mode. (the default is client mode)
 - `--headless`: don't create the timer window
