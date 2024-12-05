@@ -210,8 +210,12 @@ func _on_connected_ok() -> void:
 
 func _on_connected_fail() -> void:
 	print("Failed to connect to server")
-	get_tree().quit()
+	# get_tree().quit()
+	print("Trying to reconnect...")
+	get_tree().reload_current_scene()
 
 func _on_server_disconnected() -> void:
 	print("Server disconnected")
-	get_tree().quit()
+	# get_tree().quit()
+	print("Trying to reconnect...")
+	get_tree().reload_current_scene()
