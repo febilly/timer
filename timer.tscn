@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://c15qjt16ev6pl"]
 
-[ext_resource type="Script" path="res://Scripts/timer_button.gd" id="1_mrocc"]
-[ext_resource type="Script" path="res://Scripts/responsive_label.gd" id="3_2fp26"]
+[ext_resource type="Script" uid="uid://bm0wym6fraw3n" path="res://Scripts/timer_button.gd" id="1_mrocc"]
+[ext_resource type="Script" uid="uid://cm6qtfyfcs4my" path="res://Scripts/responsive_label.gd" id="3_2fp26"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_es235"]
 bg_color = Color(0.0640165, 0.526372, 0.793584, 1)

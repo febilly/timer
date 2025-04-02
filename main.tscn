@@ -1,8 +1,8 @@
 [gd_scene load_steps=36 format=3 uid="uid://byvxicb6quq0o"]
 
 [ext_resource type="PackedScene" uid="uid://c15qjt16ev6pl" path="res://timer.tscn" id="1_464v5"]
-[ext_resource type="Script" path="res://Scripts/main.gd" id="1_jq2iv"]
-[ext_resource type="Script" path="res://Scripts/timers_container.gd" id="2_yyep3"]
+[ext_resource type="Script" uid="uid://cbamrhcld6cm" path="res://Scripts/main.gd" id="1_jq2iv"]
+[ext_resource type="Script" uid="uid://brk4vw3bpikhk" path="res://Scripts/timers_container.gd" id="2_yyep3"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_r4hox"]
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dgob5pnqy8ksq"]
 
-[ext_resource type="Script" path="res://Scripts/timeline_list.gd" id="1_qs26f"]
+[ext_resource type="Script" uid="uid://biji4nayrbvso" path="res://Scripts/timeline_list.gd" id="1_qs26f"]
 [ext_resource type="PackedScene" uid="uid://d4dfy5ly586ai" path="res://timeline_panel.tscn" id="2_60cyk"]
 
 [node name="TimelineList" type="Control"]
