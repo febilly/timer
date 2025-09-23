@@ -14,8 +14,11 @@ var previous_date: String
 
 func _ready() -> void:
 	# print("display scale: %s" % DisplayServer.screen_get_scale())
+	
 	if Globals.is_run_in_server_mode():
 		print("running as server")
+		# 只在服务端初始化并监控配置文件
+		TimerTypeList.initialize()
 		var peer := ENetMultiplayerPeer.new()
 		peer.create_server(PORT)
 		multiplayer.multiplayer_peer = peer
@@ -67,6 +70,17 @@ func load_record() -> void:
 
 	if FileAccess.file_exists(filename):
 		record = Record.load_from(filename)
+		
+		# 检查当前激活的计时器是否还存在于配置中
+		if not record.is_empty():
+			var current_active_name := record.peek().timer_name
+			if not TimerTypeList.has_timer_name(current_active_name):
+				print("Current active timer '%s' no longer exists, switching to default" % current_active_name)
+				var new_entry: Entry = Entry.new()
+				new_entry.timer_name = TimerTypeList.at(TimerTypeList.default_type_index).timer_name
+				new_entry.timestamp = Metronome.seconds
+				record.push(new_entry)
+				record.save_to(filename)
 	else:
 		var new_record = Record.new()
 
@@ -128,8 +142,13 @@ func read_brief_record(brief_record_dict: Dictionary) -> void:
 	# 先禁用掉所有计时器
 	for timer: TimerButton in timers.get_children():
 		timer.button_pressed = false
-
-	# 设置各个计时器的激活状态
+		
+	# 确保我们有一个有效的活跃计时器
+	if active_timer_button == null:
+		for timer: TimerButton in timers.get_children():
+			if timer.timer_name == TimerTypeList.at(TimerTypeList.default_type_index).timer_name:
+				active_timer_button = timer
+				break	# 设置各个计时器的激活状态
 	# active_timer_button.button_pressed = true
 	for timer: TimerButton in timers.get_children():
 		if timer == active_timer_button:
@@ -138,14 +157,25 @@ func read_brief_record(brief_record_dict: Dictionary) -> void:
 			timer.remote_release()
 
 	# 让最后使用的计时器知道上次点击的时间
-	active_timer_button.last_timestamp = brief_record.last_timestamp
+	if active_timer_button != null:
+		active_timer_button.last_timestamp = brief_record.last_timestamp
 
 	# 更新所有计时器
 	for timer: TimerButton in timers.get_children():
 		timer.update_time()
 
+# 服务端向客户端同步 TimerTypeList 配置
+@rpc("authority", "call_remote", "reliable")
+func sync_timer_types(timer_types_dict: Dictionary) -> void:
+	print("Client: Received timer types configuration from server")
+	TimerTypeList.from_dict(timer_types_dict)
+
 
 func tick(seconds: int):
+	# 检查配置文件是否有变化（只在服务端执行）
+	if multiplayer.is_server() and TimerTypeList.reload_if_changed():
+		_on_timer_types_reloaded()
+	
 	# 更新所有计时器
 	for timer: TimerButton in timers.get_children():
 		timer.update_time()
@@ -199,6 +229,11 @@ func server_change_timer(timer_name: String, seconds_on_request: int) -> void:
 func _on_player_connected(id: int) -> void:
 	print("Player connected with id: %d" % id)
 	if multiplayer.is_server():
+		# 先发送 TimerTypeList 配置给新连接的客户端
+		var timer_types_dict: Dictionary = TimerTypeList.to_dict()
+		sync_timer_types.rpc_id(id, timer_types_dict)
+		
+		# 然后发送记录数据
 		var brief_record: BriefRecord = record.get_brief()
 		read_brief_record.rpc_id(id, brief_record.to_dict())
 
@@ -219,3 +254,18 @@ func _on_server_disconnected() -> void:
 	# get_tree().quit()
 	print("Trying to reconnect...")
 	get_tree().reload_current_scene()
+
+func _on_timer_types_reloaded() -> void:
+	# 热重载逻辑只在服务端执行
+	if not multiplayer.is_server():
+		return
+
+	print("Timer types configuration reloaded, updating UI...")
+	
+	# 向所有客户端同步新的 TimerTypeList 配置
+	var timer_types_dict: Dictionary = TimerTypeList.to_dict()
+	sync_timer_types.rpc(timer_types_dict)
+	
+	# 保存并重新加载记录
+	record.save_to(filename)
+	server_load_record()

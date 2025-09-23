@@ -1,0 +1,37 @@
+{
+	"timer_types": [
+		{
+			"name": "摸鱼",
+			"color": "#ff004d"
+		},
+		{
+			"name": "看视频",
+			"color": "#ff77a8"
+		},
+		{
+			"name": "刷手机",
+			"color": "#ffa300"
+		},
+		{
+			"name": "学东西",
+			"color": "#ffec27"
+		},
+		{
+			"name": "写课程作业",
+			"color": "#66dd3a"
+		},
+		{
+			"name": "打游戏",
+			"color": "#4dffea"
+		},
+		{
+			"name": "研究生",
+			"color": "#297bff"
+		},
+		{
+			"name": "做东西",
+			"color": "#bb29ff"
+		}
+	],
+	"default_type_index": 0
+}

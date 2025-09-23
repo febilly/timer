@@ -32,10 +32,11 @@ func get_total_times() -> Dictionary:
 	for entry in entries:
 		var segment_length := entry.timestamp - last_timestamp
 		last_timestamp = entry.timestamp
-		if last_timer_name in total_times:
-			total_times[last_timer_name] += segment_length
-		else:
-			total_times[last_timer_name] = segment_length
+		if TimerTypeList.has_timer_name(last_timer_name):
+			if last_timer_name in total_times:
+				total_times[last_timer_name] += segment_length
+			else:
+				total_times[last_timer_name] = segment_length
 		last_timer_name = entry.timer_name
 	return total_times
 
