@@ -8,7 +8,7 @@ static var list: Array[TimerType] = [
 	TimerType.create("摸鱼", Color("#ff004d")),
 	TimerType.create("看视频", Color("#ff77a8")),
 	TimerType.create("刷手机", Color("#ffa300")),
-	TimerType.create("上网冲浪", Color("#ffec27")),
+	TimerType.create("学东西", Color("#ffec27")),
 	TimerType.create("写课程作业", Color("#66dd3a")),
 	TimerType.create("打游戏", Color("#4dffea")),
 	TimerType.create("研究生", Color("#297bff")),
