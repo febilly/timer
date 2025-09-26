@@ -1,7 +1,11 @@
 class_name Globals
 
+const PORT := 58734
+
 const default_folder: String = "user://"
 const folder_env_name: String = "TIMER_DATA_FOLDER"
+
+static var server_ip := "127.0.0.1"
 
 static func get_data_folder() -> String:
 	if OS.has_environment(folder_env_name):

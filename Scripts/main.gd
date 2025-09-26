@@ -3,9 +3,6 @@ class_name Main
 
 @onready var timers = %TimersContainer
 
-const PORT := 58734
-const SERVER_IP := "127.0.0.1"
-
 var filename: String
 var record: Record  # 客户端中可能为空
 # var brief_record: BriefRecord
@@ -20,12 +17,12 @@ func _ready() -> void:
 		# 只在服务端初始化并监控配置文件
 		TimerTypeList.initialize()
 		var peer := ENetMultiplayerPeer.new()
-		peer.create_server(PORT)
+		peer.create_server(Globals.PORT)
 		multiplayer.multiplayer_peer = peer
 	else:
 		print("running as client")
 		var peer := ENetMultiplayerPeer.new()
-		peer.create_client(SERVER_IP, PORT)
+		peer.create_client(Globals.server_ip, Globals.PORT)
 		multiplayer.multiplayer_peer = peer
 
 	for timer: TimerButton in timers.get_children():

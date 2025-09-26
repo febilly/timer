@@ -1,6 +1,4 @@
-[gd_resource type="Theme" load_steps=18 format=3 uid="uid://wiqqeucerhcl"]
-
-[ext_resource type="StyleBox" uid="uid://c127pdysch1eu" path="res://button.tres" id="2_qfsed"]
+[gd_resource type="Theme" load_steps=23 format=3 uid="uid://wiqqeucerhcl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vh2gp"]
 bg_color = Color(0.00282907, 0.125086, 0.208689, 1)
@@ -128,6 +126,16 @@ expand_margin_bottom = 4.0
 shadow_size = 4
 shadow_offset = Vector2(2, 2)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e1x85"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vj6dk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_110ce"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cjfk0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wvktn"]
+
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_2gfuf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1l65w"]
@@ -243,6 +251,8 @@ expand_margin_top = 4.0
 expand_margin_right = 4.0
 expand_margin_bottom = 4.0
 
+[sub_resource type="SystemFont" id="SystemFont_wvktn"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ahp3u"]
 bg_color = Color(0, 0, 0, 0)
 border_width_left = 4
@@ -267,7 +277,7 @@ Button/font_sizes/font_size = 32
 Button/styles/disabled = SubResource("StyleBoxFlat_vh2gp")
 Button/styles/focus = null
 Button/styles/hover = SubResource("StyleBoxFlat_jpnwo")
-Button/styles/normal = ExtResource("2_qfsed")
+Button/styles/normal = null
 Button/styles/pressed = SubResource("StyleBoxFlat_7yyqk")
 CancelButton/base_type = &"Button"
 CancelButton/styles/disabled = SubResource("StyleBoxFlat_yv3ar")
@@ -275,6 +285,11 @@ CancelButton/styles/focus = null
 CancelButton/styles/hover = SubResource("StyleBoxFlat_bvn5b")
 CancelButton/styles/normal = SubResource("StyleBoxFlat_47viq")
 CancelButton/styles/pressed = SubResource("StyleBoxFlat_kmfp1")
+CheckBox/styles/focus = SubResource("StyleBoxEmpty_e1x85")
+CheckBox/styles/hover = SubResource("StyleBoxEmpty_vj6dk")
+CheckBox/styles/hover_pressed = SubResource("StyleBoxEmpty_110ce")
+CheckBox/styles/normal = SubResource("StyleBoxEmpty_cjfk0")
+CheckBox/styles/pressed = SubResource("StyleBoxEmpty_wvktn")
 CheckButton/icons/checked = SubResource("PlaceholderTexture2D_2gfuf")
 CheckButton/icons/checked_disabled = SubResource("PlaceholderTexture2D_2gfuf")
 CheckButton/icons/checked_disabled_mirrored = SubResource("PlaceholderTexture2D_2gfuf")
@@ -304,11 +319,12 @@ ItemList/styles/selected_focus = SubResource("StyleBoxFlat_c8wqu")
 LineEdit/colors/caret_color = Color(0.424036, 0.679174, 0.793681, 1)
 LineEdit/colors/clear_button_color = Color(0.875, 0.875, 0.875, 1)
 LineEdit/colors/clear_button_color_pressed = Color(1, 1, 1, 1)
-LineEdit/colors/font_color = Color(0, 0, 0, 1)
+LineEdit/colors/font_color = Color(1, 1, 1, 1)
 LineEdit/colors/font_outline_color = Color(1, 1, 1, 1)
 LineEdit/colors/font_placeholder_color = Color(0.212305, 0.212305, 0.212305, 0.6)
 LineEdit/colors/font_selected_color = Color(1, 1, 1, 1)
-LineEdit/font_sizes/font_size = 24
+LineEdit/font_sizes/font_size = 48
+LineEdit/fonts/font = SubResource("SystemFont_wvktn")
 LineEdit/styles/focus = SubResource("StyleBoxFlat_ahp3u")
 LineEdit/styles/normal = null
 LineEdit/styles/read_only = null

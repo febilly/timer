@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dako8yau028wi"]
+[gd_scene load_steps=4 format=3 uid="uid://dako8yau028wi"]
 
-[ext_resource type="Script" path="res://Scripts/server_address_input.gd" id="1_gucrp"]
+[ext_resource type="Script" uid="uid://nwjrnyxip65r" path="res://Scripts/server_address_input.gd" id="1_gucrp"]
+[ext_resource type="Theme" uid="uid://wiqqeucerhcl" path="res://theme.tres" id="1_xfs30"]
+[ext_resource type="ButtonGroup" uid="uid://wm1tjpnkdi6p" path="res://server_selection_button_group.tres" id="2_dyxys"]
 
 [node name="ServerAddressInput" type="Control"]
 layout_mode = 3
@@ -11,6 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource("1_xfs30")
 script = ExtResource("1_gucrp")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -29,30 +32,62 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -4.0
-offset_top = -4.0
-offset_right = 4.0
-offset_bottom = 4.0
+offset_left = -146.0
+offset_top = -169.0
+offset_right = 146.0
+offset_bottom = 169.0
 grow_horizontal = 2
 grow_vertical = 2
+alignment = 1
 
-[node name="HSplitContainer" type="HSplitContainer" parent="ColorRect/VBoxContainer"]
+[node name="Server1" type="HSplitContainer" parent="ColorRect/VBoxContainer"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+dragging_enabled = false
+
+[node name="CheckBox" type="CheckBox" parent="ColorRect/VBoxContainer/Server1"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+button_pressed = true
+button_group = ExtResource("2_dyxys")
+
+[node name="AddressLine" type="LineEdit" parent="ColorRect/VBoxContainer/Server1"]
+custom_minimum_size = Vector2(480, 32)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ColorRect/VBoxContainer/HSplitContainer"]
+[node name="Server2" type="HSplitContainer" parent="ColorRect/VBoxContainer"]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-text = "Server IP: "
+dragging_enabled = false
 
-[node name="AddressLine" type="LineEdit" parent="ColorRect/VBoxContainer/HSplitContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(256, 32)
+[node name="CheckBox" type="CheckBox" parent="ColorRect/VBoxContainer/Server2"]
+custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
-size_flags_vertical = 4
+button_group = ExtResource("2_dyxys")
+
+[node name="AddressLine" type="LineEdit" parent="ColorRect/VBoxContainer/Server2"]
+custom_minimum_size = Vector2(480, 32)
+layout_mode = 2
+
+[node name="Server3" type="HSplitContainer" parent="ColorRect/VBoxContainer"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+dragging_enabled = false
+
+[node name="CheckBox" type="CheckBox" parent="ColorRect/VBoxContainer/Server3"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+button_group = ExtResource("2_dyxys")
+
+[node name="AddressLine" type="LineEdit" parent="ColorRect/VBoxContainer/Server3"]
+custom_minimum_size = Vector2(480, 32)
+layout_mode = 2
 
 [node name="ConnectButton" type="Button" parent="ColorRect/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_type_variation = &"PaddedButton"
+theme_type_variation = &"ComfirmButton"
+theme_override_font_sizes/font_size = 32
 text = "Connect"
