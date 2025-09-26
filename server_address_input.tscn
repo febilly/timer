@@ -1,0 +1,58 @@
+[gd_scene load_steps=2 format=3 uid="uid://dako8yau028wi"]
+
+[ext_resource type="Script" path="res://Scripts/server_address_input.gd" id="1_gucrp"]
+
+[node name="ServerAddressInput" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_gucrp")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.501961)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HSplitContainer" type="HSplitContainer" parent="ColorRect/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/HSplitContainer"]
+layout_mode = 2
+text = "Server IP: "
+
+[node name="AddressLine" type="LineEdit" parent="ColorRect/VBoxContainer/HSplitContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(256, 32)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="ConnectButton" type="Button" parent="ColorRect/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"PaddedButton"
+text = "Connect"
