@@ -21,6 +21,11 @@ var server_config = {
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	# 如果是服务器模式，直接跳转到主场景
+	if Globals.is_run_in_server_mode():
+		get_tree().change_scene_to_packed(main_scene)
+		return
+	
 	load_config()
 	connect_button.pressed.connect(_on_connect_button_pressed)
 	
