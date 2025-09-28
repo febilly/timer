@@ -34,7 +34,7 @@ static func get_records_file_path(file_name: String) -> String:
 
 
 static func is_run_in_server_mode():
-	return "--server" in OS.get_cmdline_args() or OS.has_feature("dedicated_server")
+	return "--server" in OS.get_cmdline_args() or OS.has_feature("dedicated_server") or OS.has_environment("TIMER_SERVER_MODE")
 	# return OS.has_feature("editor") or "--server" in OS.get_cmdline_args()
 	# return true
 

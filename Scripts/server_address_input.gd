@@ -4,19 +4,21 @@ extends Control
 
 @onready var connect_button = %ConnectButton
 
-# 获取三个服务器容器的引用
+# 获取服务器容器的引用
 @onready var server1_container = $ColorRect/VBoxContainer/Server1
 @onready var server2_container = $ColorRect/VBoxContainer/Server2
 @onready var server3_container = $ColorRect/VBoxContainer/Server3
+@onready var local_server_container = $ColorRect/VBoxContainer/LocalServer
 
 # 服务器配置数据结构
 var server_config = {
 	"servers": [
-		{"address": "localhost", "selected": true},
+		{"address": "localhost", "selected": false},
 		{"address": "127.0.0.1", "selected": false},
-		{"address": "[::1]", "selected": false}
+		{"address": "[::1]", "selected": false},
+		{"address": "local_server", "selected": true}  # 本地服务器选项
 	],
-	"last_selected": 0
+	"last_selected": 3  # 默认选择本地服务器
 }
 
 # Called when the node enters the scene tree for the first time.
@@ -30,15 +32,19 @@ func _ready():
 	connect_button.pressed.connect(_on_connect_button_pressed)
 	
 	# 为每个服务器的输入框连接文本变化信号
-	var server_containers = [server1_container, server2_container, server3_container]
+	var server_containers = [server1_container, server2_container, server3_container, local_server_container]
 	for i in range(server_containers.size()):
-		var line_edit = server_containers[i].get_node("AddressLine")
-		var checkbox = server_containers[i].get_node("CheckBox")
+		var container = server_containers[i]
+		var checkbox = container.get_node("CheckBox")
 		
-		# 连接文本变化信号
-		line_edit.text_changed.connect(_on_address_changed.bind(i))
 		# 连接选择变化信号
 		checkbox.toggled.connect(_on_server_selected.bind(i))
+		
+		# 只有前三个服务器有地址输入框
+		if i < 3:
+			var line_edit = container.get_node("AddressLine")
+			# 连接文本变化信号
+			line_edit.text_changed.connect(_on_address_changed.bind(i))
 
 func load_config():
 	var config_path = Globals.get_data_file_path("server_config.json")
@@ -68,19 +74,25 @@ func save_config():
 	file.close()
 
 func update_ui():
-	var server_containers = [server1_container, server2_container, server3_container]
+	var server_containers = [server1_container, server2_container, server3_container, local_server_container]
 	
 	for i in range(server_containers.size()):
-		var line_edit = server_containers[i].get_node("AddressLine")
-		var checkbox = server_containers[i].get_node("CheckBox")
+		var container = server_containers[i]
+		var checkbox = container.get_node("CheckBox")
 		
-		# 更新地址
+		# 更新选中状态
 		if i < server_config.servers.size():
-			line_edit.text = server_config.servers[i].address
 			checkbox.button_pressed = server_config.servers[i].selected
 		else:
-			line_edit.text = ""
 			checkbox.button_pressed = false
+		
+		# 只有前三个服务器有地址输入框
+		if i < 3:
+			var line_edit = container.get_node("AddressLine")
+			if i < server_config.servers.size():
+				line_edit.text = server_config.servers[i].address
+			else:
+				line_edit.text = ""
 
 func _on_address_changed(new_text: String, server_index: int):
 	if server_index < server_config.servers.size():
@@ -95,16 +107,30 @@ func _on_server_selected(button_pressed: bool, server_index: int):
 		server_config.last_selected = server_index
 
 func _on_connect_button_pressed():
-	var selected_address = get_selected_server_address()
-	if selected_address != "":
-		save_config()
-
-		print("Connecting to server: %s" % selected_address)
-		Globals.server_ip = selected_address
-
+	save_config()
+	
+	# 检查是否选择了本地服务器
+	var selected_index = get_selected_server_index()
+	if selected_index == 3:  # LocalServer 的索引是 3
+		print("Starting in server mode (LocalServer selected)...")
+		# 设置服务器模式环境变量
+		OS.set_environment("TIMER_SERVER_MODE", "true")
+		# 直接启动主场景，Globals.is_run_in_server_mode() 会检查环境变量
 		get_tree().change_scene_to_packed(main_scene)
 	else:
-		print("No server selected!")
+		var selected_address = get_selected_server_address()
+		if selected_address != "" and selected_address != "local_server":
+			print("Connecting to server: %s" % selected_address)
+			Globals.server_ip = selected_address
+			get_tree().change_scene_to_packed(main_scene)
+		else:
+			print("No valid server selected!")
+
+func get_selected_server_index() -> int:
+	for i in range(server_config.servers.size()):
+		if server_config.servers[i].selected:
+			return i
+	return -1
 
 func get_selected_server_address() -> String:
 	for server in server_config.servers:
